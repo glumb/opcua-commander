@@ -22,43 +22,43 @@ var NodeClassToString = _.invert(opcua.NodeClass);
 
 
 var argv = require('yargs')
-    .wrap(132)
+        .wrap(132)
 
-    .demand("endpoint")
-    .string("endpoint")
-    .describe("endpoint", "the end point to connect to ")
+        .demand("endpoint")
+        .string("endpoint")
+        .describe("endpoint", "the end point to connect to ")
 
-    .string("securityMode")
-    .describe("securityMode", "the security mode")
+        .string("securityMode")
+        .describe("securityMode", "the security mode")
 
-    .string("securityPolicy")
-    .describe("securityPolicy", "the policy mode")
+        .string("securityPolicy")
+        .describe("securityPolicy", "the policy mode")
 
-    .string("userName")
-    .describe("userName", "specify the user name of a UserNameIdentityToken ")
+        .string("userName")
+        .describe("userName", "specify the user name of a UserNameIdentityToken ")
 
-    .string("password")
-    .describe("password", "specify the password of a UserNameIdentityToken")
+        .string("password")
+        .describe("password", "specify the password of a UserNameIdentityToken")
 
-    .string("node")
-    .describe("node","the nodeId of the value to monitor")
+        .string("node")
+        .describe("node","the nodeId of the value to monitor")
 
-    .string("history")
-    .describe("history","make an historical read")
+        .string("history")
+        .describe("history","make an historical read")
 
-    .alias('e', 'endpoint')
-    .alias('s', 'securityMode')
-    .alias('P', 'securityPolicy')
-    .alias("u", 'userName')
-    .alias("p", 'password')
-    .alias("n", 'node')
-    .alias("t", 'timeout')
+        .alias('e', 'endpoint')
+        .alias('s', 'securityMode')
+        .alias('P', 'securityPolicy')
+        .alias("u", 'userName')
+        .alias("p", 'password')
+        .alias("n", 'node')
+        .alias("t", 'timeout')
 
-    .example("opcua-commander  --endpoint opc.tcp://localhost:49230 -P=Basic256 -s=SIGN")
-    .example("opcua-commander  -e opc.tcp://localhost:49230 -P=Basic256 -s=SIGN -u JoeDoe -p P@338@rd ")
-    .example("opcua-commander  --endpoint opc.tcp://localhost:49230  -n=\"ns=0;i=2258\"")
+        .example("opcua-commander  --endpoint opc.tcp://localhost:49230 -P=Basic256 -s=SIGN")
+        .example("opcua-commander  -e opc.tcp://localhost:49230 -P=Basic256 -s=SIGN -u JoeDoe -p P@338@rd ")
+        .example("opcua-commander  --endpoint opc.tcp://localhost:49230  -n=\"ns=0;i=2258\"")
 
-    .argv;
+        .argv;
 
 
 var securityMode = opcua.MessageSecurityMode.get(argv.securityMode || "NONE");
@@ -155,15 +155,15 @@ function monitor_item(treeItem) {
 
 
     var monitoredItem = g_subscription.monitor({
-            nodeId: node.nodeId,
-            attributeId: opcua.AttributeIds.Value
-            //, dataEncoding: { namespaceIndex: 0, name:null }
-        },
-        {
-            samplingInterval: 1000,
-            discardOldest: true,
-            queueSize: 100
-        });
+                nodeId: node.nodeId,
+                attributeId: opcua.AttributeIds.Value
+                //, dataEncoding: { namespaceIndex: 0, name:null }
+            },
+            {
+                samplingInterval: 1000,
+                discardOldest: true,
+                queueSize: 100
+            });
     // subscription.on("item_added",function(monitoredItem){
     //xx monitoredItem.on("initialized",function(){ });
     //xx monitoredItem.on("terminated",function(value){ });
@@ -213,30 +213,30 @@ function unmonitor_item(treeItem) {
 
     // teminate subscription
     node.monitoredItem.terminate();
-  
+
     var index = -1
     monitoredItemsListData.forEach(function(entry, i) {
-      if (entry[1] == node.nodeId.toString()) {
-        index = i;
-      }
+        if (entry[1] == node.nodeId.toString()) {
+            index = i;
+        }
     });
-    if (index > -1) {  
-      monitoredItemsListData.splice(index, 1);
+    if (index > -1) {
+        monitoredItemsListData.splice(index, 1);
     }
-    
-    node.monitoredItem = null; 
-    
+
+    node.monitoredItem = null;
+
     if (monitoredItemsListData.length > 0) {
-      monitoredItemsList.setRows(monitoredItemsListData);
+        monitoredItemsList.setRows(monitoredItemsListData);
     } else {
-      // when using setRows with empty array, the view does not update.
-      // setting an empty row.
-      var empty = [[" "]];
-      monitoredItemsList.setRows(empty);
+        // when using setRows with empty array, the view does not update.
+        // setting an empty row.
+        var empty = [[" "]];
+        monitoredItemsList.setRows(empty);
     }
-    
+
     monitoredItemsList.render();
-     
+
 }
 
 /**
@@ -413,7 +413,7 @@ function install_attributeList() {
 
     attributeList = blessed.list({
         parent: area1,
-        label: ' {bold}{cyan-fg}Attribute List{/cyan-fg}{/bold}',
+        label: ' {bold}{cyan-fg}Attribute List{/cyan-fg}{/bold} ',
         top: 0,
         tags: true,
         left: w2 + "+1",
@@ -511,7 +511,7 @@ function install_address_space_explorer() {
         tags: true,
         fg: 'green',
         //Xx keys: true,
-        label: ' {bold}{cyan-fg}Address Space{/cyan-fg}{/bold}',
+        label: ' {bold}{cyan-fg}Address Space{/cyan-fg}{/bold} ',
         top: 'top',
         left: 'left',
         width: '40%',
@@ -565,21 +565,21 @@ var monitoredItemsList = null;
 function install_monitoredItemsWindow() {
 
     monitoredItemsList = blessed.listtable(
-        {
-            parent: area1,
-            tags: true,
-            top: "50%",
-            left: w2 + "+1",
-            width: '60%-1',
-            height: '50%',
-            keys: true,
-            label: 'Monitored Items',
-            border: 'line',
-            scrollbar: scrollbar,
-            noCellBorders: true,
-            style: _.clone(style),
-            align: "left"
-        });
+            {
+                parent: area1,
+                tags: true,
+                top: "50%",
+                left: w2 + "+1",
+                width: '60%-1',
+                height: '50%',
+                keys: true,
+                label: ' Monitored Items ',
+                border: 'line',
+                scrollbar: scrollbar,
+                noCellBorders: true,
+                style: _.clone(style),
+                align: "left"
+            });
 
     area1.append(monitoredItemsList);
 
@@ -589,23 +589,23 @@ function install_monitoredItemsWindow() {
 var line = null;
 function install_graphWindow() {
     line = contrib.line(
-        {
-            top: "40%+1",
-            left: w2 + "-1",
-            width: '70%-1',
-            height: '40%-8',
-            keys: true,
-            style: {
-                line: "yellow"
-                , text: "green"
-                , baseline: "black"
-            }
-            , xLabelPadding: 3
-            , xPadding: 5
-            , showLegend: true
-            , wholeNumbersOnly: false //true=do not show fraction in y axis
-            , label: 'Title'
-        });
+            {
+                top: "40%+1",
+                left: w2 + "-1",
+                width: '70%-1',
+                height: '40%-8',
+                keys: true,
+                style: {
+                    line: "yellow"
+                    , text: "green"
+                    , baseline: "black"
+                }
+                , xLabelPadding: 3
+                , xPadding: 5
+                , showLegend: true
+                , wholeNumbersOnly: false //true=do not show fraction in y axis
+                , label: 'Title'
+            });
 
 
     screen.append(line);
@@ -626,7 +626,7 @@ function install_logWindow() {
 
         parent: area2,
         tags: true,
-        label: ' {bold}{cyan-fg}Info{/cyan-fg}{/bold}',
+        label: ' {bold}{cyan-fg}Info{/cyan-fg}{/bold} ',
         top: 'top',
         left: 'left',
         width: '100%',
@@ -643,17 +643,7 @@ function install_logWindow() {
                 inverse: true
             }
         },
-        style: {
-            item: {
-                hover: {
-                    bg: 'blue'
-                }
-            },
-            selected: {
-                bg: 'blue',
-                bold: true
-            }
-        }
+        style: _.clone(style)
     });
 
     var lines;
